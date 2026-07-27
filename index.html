@@ -296,35 +296,33 @@
       </div>
 
       <div class="convert-grid">
-        <!-- Left column: the seat count (the real number) + cohort logistics -->
+        <!-- Left column: one card — price, early bird, then cohort logistics -->
         <div class="convert-col">
           <div class="info-card">
             <h3>Investment</h3>
             <!-- a11y: the struck price is hidden from AT and replaced by explicit
                  spoken labels, so a screen reader cannot confuse old and current. -->
-            <p class="price-line">
-              <span class="pk">Price:</span>
-              <s aria-hidden="true">&euro;970</s>
-              <span class="vh">Regular price 970 euro. Early bird price:</span>
-              <span class="pnow">&euro;873</span>
-            </p>
-            <p class="note">per seat<br>invoiced to you or your organization</p>
-            <div class="early">Book before <strong>October&nbsp;31</strong> and pay <strong>&euro;873</strong> with early bird discount (10%).</div>
-            <p class="legal">All prices on this website are excl. taxes (like VAT).</p>
-          </div>
-          <div class="info-card">
-            <h3>Cohort details</h3>
-            <div class="seat-block">
-              <span class="fk">Seats</span>
-              <p class="seat-cap"><span class="n">20</span> — kept small on purpose</p>
+            <div class="price-row">
+              <p class="price-line">
+                <span class="pk">Price:</span>
+                <span class="vh">Regular price 970 euro. Early bird price:</span>
+                <span class="pnow">&euro;873</span>
+                <s aria-hidden="true">&euro;970</s>
+              </p>
+              <p class="note">per seat &middot; invoiced to you or your organization</p>
             </div>
+            <div class="early">Book before <strong>October&nbsp;31</strong> and pay <strong>&euro;873</strong> with early bird discount (10%).</div>
+
+            <h3 class="ic-sub">Cohort details</h3>
             <ul class="facts">
+              <li><span class="fk">Seats</span><span class="fv">20 <em>&mdash; kept small on purpose</em></span></li>
               <li><span class="fk">Starts</span><span class="fv"><!-- cohort start date -->Announced soon</span></li>
               <li><span class="fk">Duration</span><span class="fv">7 weeks</span></li>
               <li><span class="fk">Where</span><span class="fv">Online, live</span></li>
               <li><span class="fk">Language</span><span class="fv">English</span></li>
               <li><span class="fk">Certificate</span><span class="fv">On completion</span></li>
             </ul>
+            <p class="legal">All prices on this website are excl. taxes (like VAT).</p>
           </div>
         </div>
 

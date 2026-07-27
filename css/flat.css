@@ -1231,9 +1231,8 @@ nav {
 .convert-col {
   display: flex;
   flex-direction: column;
-  gap: 20px;
 }
-.convert-col .info-card:last-child {
+.convert-col .info-card {
   flex: 1;
   display: flex;
   flex-direction: column;
@@ -1246,7 +1245,7 @@ nav {
   background: var(--surface);
   border: 1px solid var(--line);
   border-radius: 20px;
-  padding: 30px;
+  padding: clamp(24px, 2.4vw, 28px);
   color: var(--fg);
 }
 .info-card h3 {
@@ -1255,7 +1254,24 @@ nav {
   letter-spacing: 0.14em;
   text-transform: uppercase;
   color: var(--faint);
-  margin-bottom: 16px;
+  margin-bottom: 12px;
+}
+/* second heading inside the merged card — separated by a rule instead of a
+   card edge, so price and logistics read as one block without extra height */
+.info-card .ic-sub {
+  margin-top: 22px;
+  padding-top: 18px;
+  border-top: 1px solid var(--line);
+  margin-bottom: 2px;
+}
+/* price and its qualifier sit side by side; the note only drops below when
+   there genuinely isn't room for it */
+.price-row {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 4px 18px;
 }
 /* Price: €873 is the live number and carries the display size; €970 is struck
    and quieter, but stays at --muted so it still clears 4.5:1. */
@@ -1263,8 +1279,7 @@ nav {
   display: flex;
   flex-wrap: wrap; /* must not force the card wider than 390px */
   align-items: baseline;
-  gap: 6px 12px;
-  margin-bottom: 14px;
+  gap: 4px 10px;
 }
 .price-line .pk {
   font-size: 15px;
@@ -1273,13 +1288,13 @@ nav {
 .price-line s {
   font-family: var(--disp);
   font-weight: 600;
-  font-size: 21px;
+  font-size: 19px;
   color: var(--muted);
 }
 .price-line .pnow {
   font-family: var(--disp);
   font-weight: 700;
-  font-size: clamp(38px, 4.6vw, 48px);
+  font-size: clamp(34px, 4vw, 42px);
   line-height: 1;
   color: var(--yellow);
 }
@@ -1303,15 +1318,6 @@ nav {
   color: var(--muted);
 }
 /* The seat count is counted out in marker strokes: four groups of five. */
-.seat-block {
-  padding-bottom: 18px;
-  margin-bottom: 6px;
-  border-bottom: 1px solid var(--line);
-}
-.seat-block .fk {
-  font-size: 15px;
-  color: var(--faint);
-}
 .tally {
   display: flex;
   flex-wrap: wrap;
@@ -1351,37 +1357,25 @@ nav {
 .tally .tg:nth-child(4) {
   transform: rotate(0.6deg);
 }
-.seat-cap {
-  font-size: 15px;
-  color: var(--muted);
-}
-.seat-cap .n {
-  font-family: var(--disp);
-  font-weight: 700;
-  font-size: 30px;
-  color: var(--fg);
-  line-height: 1;
-  margin-right: 2px;
-}
 .info-card .note {
-  margin-top: 12px;
-  font-size: 13.5px;
-  line-height: 1.5;
+  max-width: 21ch;
+  font-size: 13px;
+  line-height: 1.45;
+  text-align: right;
   color: var(--faint);
 }
 .early {
-  margin-top: 18px;
+  margin-top: 16px;
   background: var(--yellow);
   color: var(--on-yellow);
   border: none;
   border-radius: 12px;
-  padding: 13px 16px;
-  font-size: 14.5px;
+  padding: 11px 14px;
+  font-size: 14px;
   font-weight: 600;
 }
 .facts {
   list-style: none;
-  margin-top: 4px;
   flex: 1;
   display: flex;
   flex-direction: column;
@@ -1389,10 +1383,10 @@ nav {
 .facts li {
   display: flex;
   flex: 1;
-  align-items: center;
+  align-items: baseline;
   justify-content: space-between;
   gap: 16px;
-  padding: 11px 0;
+  padding: 9px 0;
   border-bottom: 1px solid var(--line);
   font-size: 15px;
 }
@@ -1401,11 +1395,23 @@ nav {
 }
 .facts .fk {
   color: var(--faint);
+  white-space: nowrap;
 }
 .facts .fv {
   font-family: var(--disp);
   font-weight: 700;
   text-align: right;
+}
+/* the seat qualifier rides along with the number instead of costing a row */
+.facts .fv em {
+  font-family: var(--body);
+  font-style: normal;
+  font-weight: 400;
+  font-size: 13.5px;
+  color: var(--muted);
+}
+.info-card .legal {
+  margin-top: 16px;
 }
 /* the form is the page's one job — it gets the loudest surface */
 .form-card {
@@ -1753,6 +1759,13 @@ footer {
   .enroll {
     margin-top: 44px;
     max-width: 520px;
+  }
+}
+@media (max-width: 560px) {
+  /* wrapped, a right-aligned note reads as a stray fragment */
+  .info-card .note {
+    max-width: none;
+    text-align: left;
   }
 }
 @media (max-width: 900px) {
