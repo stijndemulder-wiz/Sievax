@@ -1426,13 +1426,50 @@ nav {
 }
 /* the form is the page's one job — it gets the loudest surface */
 .form-card {
-  /* hug the form: stretching left it with a large void of dead yellow */
-  align-self: start;
+  /* stretch to match the left column; the reassurance footer (pinned to the
+     bottom via margin-top:auto) absorbs the extra height so there is no void. */
+  display: flex;
+  flex-direction: column;
   background: var(--yellow);
   border: none;
   border-radius: var(--radius);
   padding: clamp(28px, 3vw, 36px);
   color: var(--on-yellow);
+}
+/* trust signals at the foot of the card — margin-top:auto pushes them to the
+   bottom, letting the flexible gap above soak up whatever height is left over */
+.form-reassure {
+  margin-top: auto;
+  display: flex;
+  flex-direction: column;
+  gap: 9px;
+  list-style: none;
+}
+.form-reassure li {
+  position: relative;
+  padding-left: 26px;
+  font-size: 13.5px;
+  line-height: 1.4;
+  color: rgba(11, 11, 11, 0.82);
+}
+/* a marker-style check, in keeping with the whiteboard language */
+.form-reassure li::before {
+  content: "\2713";
+  position: absolute;
+  left: 0;
+  top: 0;
+  font-family: var(--disp);
+  font-weight: 700;
+  color: var(--on-yellow);
+}
+/* the first trust line carries a hairline to separate it from the form */
+.form-reassure li:first-child {
+  border-top: 1px solid rgba(11, 11, 11, 0.16);
+  padding-top: 22px;
+  margin-top: 4px;
+}
+.form-reassure li:first-child::before {
+  top: 22px;
 }
 .form-card h3 {
   font-size: 26px;
