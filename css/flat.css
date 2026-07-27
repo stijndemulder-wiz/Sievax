@@ -632,15 +632,34 @@ nav {
   align-self: flex-start; /* don't stretch full width inside a flex column */
 }
 /* .aud-cards already contributes its 22px flex gap, so trim the margin to
-   land on the same 36px rhythm as the gap section */
+   land on the same 36px rhythm as the gap section.
+   The CTA and the soft exit share one row: paired with the pill, the fallback
+   inherits its visual weight instead of floating alone under it. */
 .aud-foot {
   margin-top: 14px;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 14px clamp(16px, 2vw, 26px);
 }
 .aud-foot .mid-cta {
   margin-top: 0;
+  flex: none;
 }
-.aud-alt {
-  margin-top: 16px;
+/* the pill is the loud one; the line beside it stays a link, never a button,
+   so the two don't compete for the same click.
+   Basis 200px is the floor for a readable two-line wrap — below it the line
+   drops under the pill rather than shredding into five words-per-line. */
+.aud-foot .aud-alt {
+  flex: 1 1 200px;
+  min-width: 0;
+  max-width: 32ch;
+  color: var(--fg);
+}
+/* squeezed beside the pill the link would otherwise split across two lines,
+   which reads as broken rather than wrapped */
+.aud-foot .alt-line a {
+  white-space: nowrap;
 }
 
 /* the soft "not sure?" fallback — muted copy with a marker-yellow link.
