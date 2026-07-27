@@ -269,7 +269,6 @@ textarea:focus-visible {
   color: var(--on-yellow);
 }
 .btn-yellow:hover {
-  background: var(--yd);
   transform: translateY(-2px);
 }
 /* on a yellow section, the primary button inverts to ink */
@@ -280,7 +279,6 @@ textarea:focus-visible {
 }
 .on-yellow .btn-yellow:hover,
 .btn-dark:hover {
-  background: #000;
   transform: translateY(-2px);
 }
 .btn-ghost {
@@ -289,18 +287,14 @@ textarea:focus-visible {
   border-color: var(--line-strong);
 }
 .btn-ghost:hover {
-  background: var(--fg);
-  color: var(--board);
-  border-color: var(--fg);
+  transform: translateY(-2px);
 }
 .on-yellow .btn-ghost {
   color: var(--on-yellow);
   border-color: rgba(11, 11, 11, 0.4);
 }
 .on-yellow .btn-ghost:hover {
-  background: var(--on-yellow);
-  color: var(--yellow);
-  border-color: var(--on-yellow);
+  transform: translateY(-2px);
 }
 
 /* generic section head */
@@ -365,8 +359,7 @@ nav {
     background 0.16s;
 }
 .nav-cta:hover {
-  background: var(--yd);
-  transform: translateY(-1px);
+  transform: translateY(-2px);
 }
 /* hamburger toggle — hidden on desktop */
 .nav-toggle {
@@ -580,10 +573,10 @@ nav {
   align-items: center;
   justify-content: center;
   gap: 9px;
-  transition: background 0.16s;
+  transition: transform 0.16s;
 }
 .enroll-go:hover {
-  background: var(--yd);
+  transform: translateY(-2px);
 }
 
 /* GAP */
@@ -926,16 +919,6 @@ nav {
   border-radius: 999px;
   background: var(--on-yellow);
   color: var(--fg);
-  transition: background 0.18s ease, transform 0.18s ease;
-}
-.stop.cta .cta-btn span {
-  transition: transform 0.18s ease;
-}
-.stop.cta:hover .cta-btn {
-  background: #000;
-}
-.stop.cta:hover .cta-btn span {
-  transform: translateX(5px);
 }
 .stop.cta .cta-seats {
   font-family: var(--disp);
@@ -1624,22 +1607,49 @@ details p {
 
 /* the soft "let's talk" closer under the FAQ — quiet by design, so it reads
    as the FAQ's last row rather than competing with the yellow CTA below */
+/* lifted into its own card so it stops blending into the FAQ list, with the
+   booking call boxed in yellow on the right to pull the eye. */
 .faq-talk {
-  margin-top: 44px;
-  padding-top: 30px;
-  border-top: 1px solid var(--line);
-  max-width: 68ch;
+  margin-top: 48px;
+  display: grid;
+  grid-template-columns: 1.35fr 1fr;
+  gap: 34px;
+  align-items: center;
+  background: var(--surface);
+  border: 1px solid var(--line);
+  border-radius: 22px;
+  padding: clamp(28px, 3vw, 40px);
 }
 .faq-talk h3 {
-  font-size: 22px;
+  font-size: clamp(22px, 2.6vw, 27px);
+  line-height: 1.1;
 }
-.faq-talk p {
+.faq-talk-body p {
   color: var(--muted);
   font-size: 16px;
-  margin-top: 10px;
+  margin-top: 12px;
 }
-.faq-talk .alt-line {
-  margin-top: 16px;
+.faq-talk-body .ft-email {
+  margin-top: 18px;
+  font-size: 15px;
+}
+/* the yellow attention panel */
+.faq-talk-cta {
+  background: var(--yellow);
+  color: var(--on-yellow);
+  border-radius: 16px;
+  padding: 28px 26px;
+  text-align: center;
+}
+.faq-talk-cta .btn {
+  width: 100%;
+  justify-content: center;
+}
+.faq-talk-cta .ft-note {
+  color: rgba(11, 11, 11, 0.82);
+  font-size: 13.5px;
+  line-height: 1.45;
+  margin-top: 14px;
 }
 
 /* FINAL — the yellow send-off */
@@ -1750,7 +1760,8 @@ footer {
   .convert-grid,
   .aud-layout,
   .tr-grid,
-  .vvid-grid {
+  .vvid-grid,
+  .faq-talk {
     grid-template-columns: 1fr;
   }
   /* stacked, the portrait frame would run absurdly tall at full width */
