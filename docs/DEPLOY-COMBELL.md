@@ -33,8 +33,17 @@ rollback net zo goedkoop.
     └── current -> d4e5f6...   ← de symlink die verlegd wordt
 ```
 
-De site zelf is een symlink naar `~/checkout/master/current/www`. Combell bewaart
-de **twee recentste releases** en ruimt oudere op.
+De site zelf is een symlink naar `~/checkout/master/current/www` — per Combell-conventie
+is `~/www` je webroot en wijst die naar de `www`-map van de huidige release. Combell
+bewaart de **twee recentste releases** en ruimt oudere op.
+
+Twee eigenschappen die de moeite zijn om te kennen:
+
+- **Een mislukte deploy breekt de site niet.** Faalt er een stap, dan blijft `current`
+  naar de vórige release wijzen. Je ziet een fout in de push-output, maar bezoekers
+  merken niets.
+- **PHP-FPM wordt herladen** zodra de symlink verlegd is, dus de opcache is vanzelf
+  leeg. Je hoeft na een deploy niets te legen of te herstarten.
 
 Dit is ook meteen de reden dat de repo een map **`www/`** moet hebben: die map
 wordt de document root. Alles wat ernaast staat (`.env`, `storage/`, `docs/`,

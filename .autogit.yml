@@ -12,6 +12,11 @@
 # élke release gesymlinkt. Daar hoort alles in wat NIET uit git komt en moet
 # blijven bestaan tussen deploys: de secrets en de runtime-logs.
 #
+# De paden hieronder zijn relatief aan de RELEASE-root, niet aan de webroot.
+# `.env` wordt dus ~/checkout/<branch>/shared/.env en `storage` wordt
+# ~/checkout/<branch>/shared/storage. Die moeten daar bestaan vóór de eerste
+# deploy nut heeft — een symlink naar iets dat er niet is, is een dood pad.
+#
 # Beide paden liggen bewust buiten `www/`, dus buiten de document root: ook als
 # de .htaccess ooit wegvalt, is de Brevo-key niet via het web op te vragen.
 
