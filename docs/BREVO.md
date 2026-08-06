@@ -45,6 +45,38 @@ in een Brevo-lijst willen zetten.
 Bewust **niet** (voorlopig): contact toevoegen aan een Brevo-lijst, en een
 bevestigingsmail naar de aanvrager zelf.
 
+## Wat er misgaat, en wat er dan gebeurt
+
+| Situatie | Bezoeker ziet | HTTP | Log |
+|---|---|---|---|
+| Alles ok | success-state | 200 | — |
+| `BREVO_API_KEY=dry` | success-state | 200 | `storage/leads.log` |
+| Brevo weigert (ongeldige key, niet-geverifieerde afzender, rate limit) | foutmelding + mailto | 502 | `brevo-error.log` **en** `leads-failed.log` |
+| Brevo onbereikbaar (timeout, DNS) | foutmelding + mailto | 502 | idem (`status: 0`, cURL-melding) |
+| Ongeldige naam of e-mail | HTML5-validatie vangt dit meestal af; anders foutmelding | 422 | — |
+| Meer dan 1 inzending per IP per 5s | foutmelding + mailto | 429 | — |
+| Honeypot ingevuld of binnen 2s verzonden (bot) | success-state | 200 | — (stil genegeerd) |
+
+De twee logs bij een mislukte verzending zijn met opzet gescheiden:
+
+- **`brevo-error.log`** — wat de API terugzei (status + body). Voor de diagnose.
+- **`leads-failed.log`** — de ingevulde gegevens zelf. Dit is het vangnet: mailt
+  de bezoeker niet alsnog, dan staat de aanvraag hier en is ze niet verloren.
+
+Er is bewust **geen stille fallback naar `mail()`**. Op shared hosting komt zulke
+mail vaak in spam terecht, en dan denk je dat het werkt terwijl er niets aankomt —
+precies het probleem dat we net opgelost hebben. Liever een zichtbare fout plus een
+log dan een valse bevestiging.
+
+Na een storing:
+
+```sh
+ssh sievaxbe@ssh083.webhosting.be
+cd ~/checkout/master/shared/storage
+tail -20 brevo-error.log      # waaróm faalde het
+tail -20 leads-failed.log     # wélke aanvragen zijn niet doorgekomen
+```
+
 ## Instellen op de server
 
 `.env` staat in de `shared/`-map van de branch, want `.autogit.yml` declareert hem

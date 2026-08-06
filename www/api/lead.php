@@ -121,9 +121,18 @@ $res   = $brevo->sendEmail(
 );
 
 if (!$res['ok']) {
+  // Twee logs, met opzet gescheiden. brevo-error.log is voor jou: wat zei de API.
+  // leads-failed.log is voor de lead: de ingevulde gegevens, zodat een mislukte
+  // verzending nooit betekent dat de aanvraag zelf verloren is. De bezoeker
+  // krijgt een foutmelding met mailto, maar reageert die niet, dan staat hij hier.
   @file_put_contents(
     $storage . '/brevo-error.log',
     '[' . $dateStr . '] ' . json_encode($res, JSON_UNESCAPED_UNICODE) . "\n",
+    FILE_APPEND | LOCK_EX
+  );
+  @file_put_contents(
+    $storage . '/leads-failed.log',
+    $dateStr . "\t" . json_encode($rows, JSON_UNESCAPED_UNICODE) . "\n",
     FILE_APPEND | LOCK_EX
   );
   respond(false, 'send', 502);
