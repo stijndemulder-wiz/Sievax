@@ -131,17 +131,26 @@ mkdir -p storage && chmod 755 storage
 
 Permissies verder: mappen `755`, bestanden `644`, `.env` `600`. **Nooit 777.**
 
-**4b — `.autogit.yml` tegen het servertemplate leggen.** Combell zet een sjabloon
-klaar op het pakket. Het bestand in deze repo is handgeschreven op basis van de
-officiële reference; vergelijk het één keer met wat de server verwacht:
+**4b — `.autogit.yml` is al gecontroleerd.** Het sjabloon van het pakket staat als
+`docs/autogit.yml.example` in de repo. Vergeleken op betekenisvolle regels is ons
+bestand er identiek aan, op de twee regels na die we bewust toevoegden:
 
-```sh
-scp sievaxbe@ssh083.webhosting.be:autogit.yml.example /tmp/autogit.yml.example
-diff /tmp/autogit.yml.example .autogit.yml
+```
+shared_files:   [ .env ]
+shared_folders: [ storage ]
 ```
 
-Verschillen in de hooks zijn onschuldig (die staan allemaal op `exit 0`); gaat het
-over sleutelnamen, neem dan die van de server over.
+De tien hooks staan allemaal op `exit 0` — de site heeft geen build- of
+installatiestap. Zou er ooit composer of een asset-build bijkomen, dan hoort die in
+`install_after`. Hooks zijn Bash-scripts en krijgen `$1` = branch, `$2` = commit id
+en `$3` = checkout-map mee.
+
+Opnieuw ophalen na een wijziging bij Combell:
+
+```sh
+scp sievaxbe@ssh083.webhosting.be:autogit.yml.example docs/autogit.yml.example
+diff docs/autogit.yml.example .autogit.yml
+```
 
 **5 — Naar productie:**
 

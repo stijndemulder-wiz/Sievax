@@ -1,0 +1,44 @@
+#######################################################################################
+# Autogit - config and deploy hooks                                                   #
+#######################################################################################
+# This YAML file, named as ".autogit.yml" should be present                           #
+# in the root folder of your codebase                                                 #
+#######################################################################################
+
+# Example shared files and folders:
+# shared_files: [ etc/config.yml ]
+# shared_folders: [ var/log ]
+
+# Hooks should be Bash shell scripts and get executed at different stages during deploy
+# Arguments: $1 = branch, $2 = commit id, $3 = checkout folder
+hooks:
+# SETUP: Create folder structure for newest release
+  setup_before: |
+    exit 0
+  setup_after: |
+    exit 0
+
+# INSTALL: Put code in release folder
+  install_before: |
+    exit 0
+  install_after: |
+    exit 0
+
+# SHAREDSYMLINK: Create symlink to shared files and folders
+#                present at every release (config, logs, ...)
+  sharedsymlink_before: |
+    exit 0
+  sharedsymlink_after: |
+    exit 0
+
+# SYMLINK: Set current symlink to newest release
+  symlink_before: |
+    exit 0
+  symlink_after: |
+    exit 0
+
+# CLEANUP: Cleanup old releases, two most recent releases remaining
+  cleanup_before: |
+    exit 0
+  cleanup_after: |
+    exit 0

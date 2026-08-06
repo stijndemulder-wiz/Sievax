@@ -26,6 +26,10 @@ shared_files:
 shared_folders:
   - storage
 
+# De hooks zijn Bash-scripts en krijgen drie argumenten mee:
+#   $1 = branch, $2 = commit id, $3 = checkout-map
+# Wij gebruiken er geen: de site heeft geen build- of installatiestap. Zou er ooit
+# composer of een asset-build bijkomen, dan hoort die in install_after.
 hooks:
   setup_before: |
     exit 0
