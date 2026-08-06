@@ -98,6 +98,14 @@ goedkoopste manier om te zien of de opzet klopt zonder de hoofdsite te raken:
 git push combell main:staging
 ```
 
+Dit werkt alleen als je publieke sleutel op het pakket staat. Dat is de enige stap
+die niet te automatiseren valt: ook de GitHub Action heeft een sleutel nodig die
+Combell kent. Eén keer plaatsen met:
+
+```sh
+ssh-copy-id -i ~/.ssh/sievax_combell.pub sievaxbe@ssh083.webhosting.be
+```
+
 Bekijk daarna `https://staging.sievax.academy`. Klopt alles → door naar stap 4.
 
 **4 — `.env` op de server zetten.** Die staat bewust niet in git. Hij hoort in de
@@ -126,8 +134,33 @@ De `main:master`-vorm mapt onze GitHub-branch `main` op Combells productiebranch
 ## Dagelijkse gang van zaken
 
 ```sh
-git push origin main             # broncode naar GitHub
-git push combell main:master     # publiceren naar sievax.academy
+git push origin main             # dat is alles
+```
+
+Een GitHub Action (`.github/workflows/deploy-combell.yml`) duwt daarna
+automatisch door naar Combell. **Combell trekt niets uit GitHub** — autogit is een
+losse bare repo op het hostingpakket die alleen reageert op een push. Iemand moet
+er dus naartoe duwen; die iemand is nu de Action in plaats van jij.
+
+De sleutel voor die push staat als GitHub-secret `COMBELL_SSH_KEY`; de hostsleutel
+van `ssh083.webhosting.be` staat in `COMBELL_KNOWN_HOSTS`, zodat de runner niet
+blind vertrouwt wat er die dag antwoordt. Beide zet je opnieuw met:
+
+```sh
+gh secret set COMBELL_SSH_KEY < ~/.ssh/sievax_combell
+ssh-keyscan -t ed25519 ssh083.webhosting.be | gh secret set COMBELL_KNOWN_HOSTS
+```
+
+> De repo is publiek. De workflow is dus zichtbaar, de secrets niet — die worden
+> versleuteld bewaard en zijn niet beschikbaar voor pull requests van forks. Wie
+> schrijfrechten op de repo heeft, kan de sleutel wel gebruiken. Wordt de repo
+> ooit met derden gedeeld, draai dan de sleutel.
+
+Naar staging publiceren blijft met opzet handwerk, zodat een gewone push nooit
+per ongeluk een halve subsite aanmaakt:
+
+```sh
+git push combell main:staging    # → staging.sievax.academy
 ```
 
 ## Rollback

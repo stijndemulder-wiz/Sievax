@@ -51,9 +51,20 @@ if (!filter_var($email, FILTER_VALIDATE_EMAIL) || mb_strlen($email) > 150) {
 }
 
 // --- Per-IP throttle: max 1 inzending per 5s ---
+// storage/ ligt náást www/, dus boven de document root: er is geen URL die er
+// naartoe wijst. De .htaccess hieronder is puur een tweede slot — als de docroot
+// ooit verkeerd op de release-root wordt gezet, blijven de logs alsnog dicht.
 $storage = __DIR__ . '/../../storage';
 if (!is_dir($storage)) {
   @mkdir($storage, 0755, true);
+}
+if (!is_file($storage . '/.htaccess')) {
+  @file_put_contents(
+    $storage . '/.htaccess',
+    "# Logs met persoonsgegevens. Nooit via het web opvraagbaar.\n"
+    . "<IfModule mod_authz_core.c>\n  Require all denied\n</IfModule>\n"
+    . "<IfModule !mod_authz_core.c>\n  Order allow,deny\n  Deny from all\n</IfModule>\n"
+  );
 }
 $ip     = (string) ($_SERVER['REMOTE_ADDR'] ?? '0.0.0.0');
 $rlFile = $storage . '/rl_' . hash('sha256', $ip) . '.txt';
