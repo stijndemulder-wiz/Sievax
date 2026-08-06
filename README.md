@@ -48,8 +48,8 @@ confirms but sends no mail — every submission lands in `storage/leads.log`.
 
 ## Deploy — Combell autogit
 
-Pushing to the Combell remote publishes the site. The **branch decides which
-site** gets it:
+Publishing is a separate, deliberate step — pushing to GitHub does not deploy.
+The **branch decides which site** the Combell push lands on:
 
 ```sh
 git push combell main:master     # → the main site, sievax.academy

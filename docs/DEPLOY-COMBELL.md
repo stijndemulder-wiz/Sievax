@@ -122,6 +122,18 @@ mkdir -p storage && chmod 755 storage
 
 Permissies verder: mappen `755`, bestanden `644`, `.env` `600`. **Nooit 777.**
 
+**4b — `.autogit.yml` tegen het servertemplate leggen.** Combell zet een sjabloon
+klaar op het pakket. Het bestand in deze repo is handgeschreven op basis van de
+officiële reference; vergelijk het één keer met wat de server verwacht:
+
+```sh
+scp sievaxbe@ssh083.webhosting.be:autogit.yml.example /tmp/autogit.yml.example
+diff /tmp/autogit.yml.example .autogit.yml
+```
+
+Verschillen in de hooks zijn onschuldig (die staan allemaal op `exit 0`); gaat het
+over sleutelnamen, neem dan die van de server over.
+
 **5 — Naar productie:**
 
 ```sh
@@ -134,30 +146,25 @@ De `main:master`-vorm mapt onze GitHub-branch `main` op Combells productiebranch
 ## Dagelijkse gang van zaken
 
 ```sh
-git push origin main             # dat is alles
+git push origin main             # broncode naar GitHub
+git push combell main:master     # publiceren naar sievax.academy
 ```
 
-Een GitHub Action (`.github/workflows/deploy-combell.yml`) duwt daarna
-automatisch door naar Combell. **Combell trekt niets uit GitHub** — autogit is een
-losse bare repo op het hostingpakket die alleen reageert op een push. Iemand moet
-er dus naartoe duwen; die iemand is nu de Action in plaats van jij.
+Twee losse handelingen, met opzet. **Combell trekt niets uit GitHub** — autogit is
+een aparte bare repo op het hostingpakket die alleen reageert op een push. Er is dus
+altijd een duwer nodig.
 
-De sleutel voor die push staat als GitHub-secret `COMBELL_SSH_KEY`; de hostsleutel
-van `ssh083.webhosting.be` staat in `COMBELL_KNOWN_HOSTS`, zodat de runner niet
-blind vertrouwt wat er die dag antwoordt. Beide zet je opnieuw met:
+Dat automatiseren met een GitHub Action kan, maar is hier bewust *niet* gedaan: die
+Action heeft een privésleutel nodig als repo-secret, en deze repo is publiek. Bovendien
+zou elke push naar `main` dan meteen live gaan. Nu is publiceren een aparte,
+bewuste stap — je kan committen en pushen zonder de klant iets te tonen.
 
-```sh
-gh secret set COMBELL_SSH_KEY < ~/.ssh/sievax_combell
-ssh-keyscan -t ed25519 ssh083.webhosting.be | gh secret set COMBELL_KNOWN_HOSTS
-```
+> Ter vergelijking: `reizen-van-laere_heen-en-weer` doet dat wél automatisch, met
+> rsync en het accountwachtwoord in een secret. Dat kan daar omdat die repo privé is
+> én omdat er geen autogit draait. Rsync en autogit bijten elkaar: rsync schrijft in
+> de huidige release, die de volgende deploy weggooit.
 
-> De repo is publiek. De workflow is dus zichtbaar, de secrets niet — die worden
-> versleuteld bewaard en zijn niet beschikbaar voor pull requests van forks. Wie
-> schrijfrechten op de repo heeft, kan de sleutel wel gebruiken. Wordt de repo
-> ooit met derden gedeeld, draai dan de sleutel.
-
-Naar staging publiceren blijft met opzet handwerk, zodat een gewone push nooit
-per ongeluk een halve subsite aanmaakt:
+Wil je toch naar staging in plaats van productie:
 
 ```sh
 git push combell main:staging    # → staging.sievax.academy
