@@ -49,7 +49,12 @@ confirms but sends no mail — every submission lands in `storage/leads.log`.
 ## Deploy — Combell autogit
 
 Publishing is a separate, deliberate step — pushing to GitHub does not deploy.
-The **branch decides which site** the Combell push lands on:
+
+**Right now, deploy with `./deploy.sh --live`** (rsync to `~/subsites/sievax.academy/`).
+Autogit is set up in this repo but Combell has it pointed at a docroot that was never
+prepared, so it refuses pushes — see the note at the top of `docs/DEPLOY-COMBELL.md`.
+
+Once that is fixed, the **branch decides which site** the Combell push lands on:
 
 ```sh
 git push combell main:master     # → the main site, sievax.academy

@@ -1,5 +1,28 @@
 # Deploy via Combell autogit
 
+> **Let op — autogit werkt hier (nog) niet.** Op dit pakket is sievax.academy een
+> *subsite*, en de autogit-activatie bereidde de verkeerde docroot voor: ze hernoemde
+> `~/www` (de hoofdsite, met de WordPress van sievax.be) naar `www_before_autogit` en
+> liet `subsites/sievax.academy` ongemoeid. Een push naar `master` wordt daarom
+> geweigerd:
+>
+> ```
+> Docroot symlink resolves to invalid path: .../subsites/sievax.academy
+> Please fix symlink manually! We expect subfolder of '.../checkout/master/'
+> ```
+>
+> Dat is niet met een handmatige symlink op te lossen — de doelmap ontstaat pas ná
+> een geslaagde deploy, dus `realpath` faalt. **Vraag aan Combell:**
+>
+> > Op pakket `sievaxbe` is autogit geactiveerd met `domain: sievax.academy` en
+> > `production: master`, maar sievax.academy is op dit pakket een subsite
+> > (`~/subsites/sievax.academy`). Hoe moet de docroot ingesteld worden zodat autogit
+> > daarnaartoe deployt?
+>
+> **Tot dat opgelost is, publiceer je met `./deploy.sh --live`** — rsync rechtstreeks
+> naar `~/subsites/sievax.academy/`. De rest van dit document beschrijft hoe autogit
+> zou werken zodra het wél kan; de repo is er al op ingericht (`www/`, `.autogit.yml`).
+
 Bedoeld om te *begrijpen* hoe het werkt, niet alleen om commando's te plakken.
 Bronnen: <https://github.com/combell/autogit-tutorial> en
 <https://github.com/combell/autogit-reference>.
