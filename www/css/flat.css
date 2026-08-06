@@ -1032,6 +1032,20 @@ nav {
   margin-top: 16px;
   max-width: 68ch;
 }
+/* the "prefer to reach out directly?" line under the booking button. .alt-line
+   gives its links a marker-yellow rule, which vanishes on this yellow ground —
+   so here the links go to ink and keep the underline as the affordance. */
+.tr-alt {
+  margin-top: 16px;
+  font-size: 15px;
+}
+.on-yellow .tr-copy p.tr-alt a {
+  color: var(--on-yellow);
+  border-bottom-color: rgba(11, 11, 11, 0.35);
+}
+.on-yellow .tr-copy p.tr-alt a:hover {
+  border-bottom-color: var(--on-yellow);
+}
 
 /* ── Yellow-ground fixes for .gap and .trainer ──────────────────────────
    Both sections set their body copy to --muted, a grey tuned for the dark
@@ -1444,6 +1458,23 @@ nav {
   padding: clamp(28px, 3vw, 36px);
   color: var(--on-yellow);
 }
+/* submit failed — shown by js/main.js instead of swallowing the lead silently.
+   The card is yellow, so the error reads as ink with a marker underline rather
+   than the usual red, which would fight the palette and add a stray hue. */
+.form-error {
+  margin-top: 14px;
+  font-size: 14.5px;
+  line-height: 1.5;
+  font-weight: 600;
+  color: var(--on-yellow);
+  border-left: 3px solid var(--on-yellow);
+  padding-left: 12px;
+}
+.form-error a {
+  color: var(--on-yellow);
+  font-weight: 700;
+}
+
 /* trust signals at the foot of the card — margin-top:auto pushes them to the
    bottom, letting the flexible gap above soak up whatever height is left over */
 .form-reassure {

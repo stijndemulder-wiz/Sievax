@@ -1,6 +1,0 @@
-# Build the public site into dist/.
-# Ships the page plus css/, js/ and assets/ — and deliberately leaves
-# docs/ (briefing, brand guide, reference example) OUT of the public deploy.
-[build]
-  command = "rm -rf dist && mkdir dist && cp index.html dist/ && cp -R assets css js dist/"
-  publish = "dist"

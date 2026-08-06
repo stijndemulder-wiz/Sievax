@@ -109,11 +109,17 @@ at 1440 and 390 and actually look at it. Report what you checked.
 `js/main.js` and the nav anchors depend on these. Changing one breaks the page:
 
 - **IDs:** `#main`, `#top`, `#gap`, `#audience`, `#program`, `#trainer`, `#video`,
-  `#apply`, `#navToggle`, `#navmenu`, `#leadForm`, `#leadSuccess`, `#videoEmbed`
-- **Form:** `#leadForm` must keep its `action`, and the field `name` attributes
-  (`name`, `email`, `organisation`, `message`, `_subject`, `_gotcha` honeypot).
-  `#leadSuccess` is revealed by JS on submit. The floating-label CSS depends on inputs
-  keeping `placeholder=" "` and the `<label>` being the *next sibling* of the input.
+  `#apply`, `#navToggle`, `#navmenu`, `#leadForm`, `#leadSuccess`, `#leadError`,
+  `#videoEmbed`, `#f-ts`
+- **Calendly:** every booking link carries `data-calendly` plus a real `href` and
+  `target="_blank"`. JS upgrades it to a click-to-load popup; the attribute is the
+  hook, the href is the fallback. Don't strip either.
+- **Form:** `#leadForm` posts to `api/lead.php`. The field `name` attributes
+  (`name`, `email`, `company`, `vat`, `message`, `_gotcha` honeypot, `_ts`) are read
+  by that handler — renaming one silently drops it from the mail. `#leadSuccess` is
+  revealed by JS on success, `#leadError` on failure. The floating-label CSS depends
+  on inputs keeping `placeholder=" "` and the `<label>` being the *next sibling* of
+  the input.
 - **Video:** `#videoEmbed` keeps its `data-video-id` attribute and must contain a
   `.vid-play` button. JS swaps the whole frame's innerHTML for an iframe on click.
 - **Nav:** `#navToggle` / `#navmenu`, and the `.open` class the JS toggles.
@@ -136,6 +142,16 @@ worktree. To keep merges clean:
 
 ## Preview / run
 
-Static site, no build. `python3 -m http.server <port>` from the repo root.
-Deploy is Netlify via `netlify.toml` (copies `index.html`, `css/`, `js/`, `assets/`
-into `dist/`; `docs/` is deliberately excluded).
+**`www/` is the document root.** `index.html`, `css/`, `js/`, `assets/` and `api/`
+all live there; `.env`, `storage/` and `docs/` sit deliberately above it, out of web
+reach. The lead form needs PHP, so a plain static server no longer covers the page:
+
+```sh
+cd www && php -S localhost:8000
+```
+
+Without a `.env` the Brevo key defaults to `dry` — the form confirms but sends no
+mail, and every submission is appended to `storage/leads.log`.
+
+Deploy is Combell autogit (`git push combell main:master` → sievax.academy). The
+branch name decides which site receives the push. See `docs/DEPLOY-COMBELL.md`.

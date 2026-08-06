@@ -1,0 +1,44 @@
+# Combell autogit — deploy-configuratie.
+#
+# Hoe het werkt: bij een push naar de Combell-remote wordt de code uitgepakt in
+#   ~/checkout/<branch>/<commit-id>/
+# en wijst de symlink ~/checkout/<branch>/current daarnaartoe. De map `www/` in
+# deze repo is de document root van de site. De branch bepaalt WELKE site:
+#   master  -> de hoofdsite (sievax.academy)
+#   <naam>  -> subsite <naam>.<domein>, automatisch aangemaakt
+# Combell bewaart de twee recentste releases en ruimt oudere op.
+#
+# shared_files / shared_folders staan in ~/checkout/<branch>/shared/ en worden in
+# élke release gesymlinkt. Daar hoort alles in wat NIET uit git komt en moet
+# blijven bestaan tussen deploys: de secrets en de runtime-logs.
+#
+# Beide paden liggen bewust buiten `www/`, dus buiten de document root: ook als
+# de .htaccess ooit wegvalt, is de Brevo-key niet via het web op te vragen.
+
+shared_files:
+  - .env
+
+shared_folders:
+  - storage
+
+hooks:
+  setup_before: |
+    exit 0
+  setup_after: |
+    exit 0
+  install_before: |
+    exit 0
+  install_after: |
+    exit 0
+  sharedsymlink_before: |
+    exit 0
+  sharedsymlink_after: |
+    exit 0
+  symlink_before: |
+    exit 0
+  symlink_after: |
+    exit 0
+  cleanup_before: |
+    exit 0
+  cleanup_after: |
+    exit 0
