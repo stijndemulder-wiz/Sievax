@@ -1,0 +1,13 @@
+# Sievax Academy — https://sievax.academy/
+#
+# LET OP: zolang de site achter de login wall staat, komt geen enkele crawler
+# hier voorbij (alles geeft 401), dus deze regels doen voorlopig niets.
+# Vanaf de livegang gelden ze wel. Wil je de site tijdelijk uit de index houden
+# NA het weghalen van de wall, zet dan "Disallow: /" — niet vergeten terug te
+# zetten, anders blijft de site onvindbaar.
+
+User-agent: *
+Allow: /
+Disallow: /api/
+
+Sitemap: https://sievax.academy/sitemap.xml

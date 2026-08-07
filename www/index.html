@@ -4,8 +4,9 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-  <title>Sievax Academy — Data &amp; AI Strategy</title>
-  <meta name="description" content="A live, six-week cohort for the leaders responsible for making Data &amp; AI actually land. Recruited worldwide, capped at 20 seats.">
+  <title>Data &amp; AI Strategy Sprint — 7-week live cohort | Sievax Academy</title>
+  <meta name="description" content="A live, seven-week cohort for the leaders who have to make Data &amp; AI actually land. Strategy, processes, people and leadership — the 80% that isn't technology. Online, worldwide, capped at 20 seats.">
+  <link rel="canonical" href="https://sievax.academy/">
 
   <!-- Favicons -->
   <link rel="icon" type="image/svg+xml" href="assets/logos/SVG/beeldmerk geel.svg">
@@ -17,23 +18,108 @@
   <!-- Social / Open Graph — set a dedicated 1200×630 og:image before launch -->
   <meta property="og:type" content="website">
   <meta property="og:site_name" content="Sievax Academy">
-  <meta property="og:title" content="Sievax Academy — Build a Data &amp; AI strategy that actually lands">
-  <meta property="og:description" content="A live, six-week cohort for the leaders responsible for making Data &amp; AI actually land. Recruited worldwide, capped at 20 seats.">
-  <meta property="og:url" content="https://academy.sievax.be/">
-  <meta property="og:image" content="https://academy.sievax.be/assets/images/illustration-gap.png">
+  <meta property="og:title" content="Data &amp; AI Strategy Sprint — build a strategy that actually lands">
+  <meta property="og:description" content="A live, seven-week cohort for the leaders who have to make Data &amp; AI actually land. Online, worldwide, capped at 20 seats.">
+  <meta property="og:url" content="https://sievax.academy/">
+  <meta property="og:image" content="https://sievax.academy/assets/images/illustration-gap.png">
   <meta name="twitter:card" content="summary_large_image">
-  <meta name="twitter:title" content="Sievax Academy — Build a Data &amp; AI strategy that actually lands">
-  <meta name="twitter:description" content="A live, six-week cohort for the leaders responsible for making Data &amp; AI actually land. Capped at 20 seats.">
-  <meta name="twitter:image" content="https://academy.sievax.be/assets/images/illustration-gap.png">
+  <meta name="twitter:title" content="Data &amp; AI Strategy Sprint — build a strategy that actually lands">
+  <meta name="twitter:description" content="A live, seven-week cohort for the leaders who have to make Data &amp; AI actually land. Capped at 20 seats.">
+  <meta name="twitter:image" content="https://sievax.academy/assets/images/illustration-gap.png">
 
-  <!-- Type: Poppins, mirroring the live sievax.be site -->
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <!-- Type: Poppins, mirroring the live sievax.be site. Self-hosted rather than
+       pulled from Google Fonts: one less render-blocking third-party request, and
+       no visitor IP handed to Google before the cookie banner has said a word. -->
+  <link rel="preload" href="assets/fonts/poppins-600.woff2" as="font" type="font/woff2" crossorigin>
+  <link rel="preload" href="assets/fonts/poppins-400.woff2" as="font" type="font/woff2" crossorigin>
 
   <!-- Styles (flat theme) + shared behaviour -->
   <link rel="stylesheet" href="css/flat.css">
   <script src="js/main.js" defer></script>
+
+  <!--
+    Structured data. Two things a search engine (or an LLM answering "where can I
+    learn Data & AI strategy") cannot reliably read off the page: that this is a
+    course with a provider, an instructor, a start date and a price, and that the
+    FAQ block is a set of question/answer pairs.
+
+    KEEP IN SYNC WITH THE PAGE. If the price, start date, duration or an FAQ
+    answer changes in the markup below, change it here too — contradicting
+    structured data is worse than none at all.
+  -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@graph": [
+      {
+        "@type": "Organization",
+        "@id": "https://sievax.academy/#organization",
+        "name": "Sievax Academy",
+        "url": "https://sievax.academy/",
+        "logo": "https://sievax.academy/assets/logos/PNG/logo - zwart.png",
+        "parentOrganization": { "@type": "Organization", "name": "Sievax", "url": "https://sievax.be/" }
+      },
+      {
+        "@type": "Person",
+        "@id": "https://sievax.academy/#jan",
+        "name": "Jan Meskens",
+        "jobTitle": "Data & AI strategy advisor",
+        "email": "jan@sievax.be",
+        "sameAs": "https://www.linkedin.com/in/janmeskens/",
+        "worksFor": { "@id": "https://sievax.academy/#organization" }
+      },
+      {
+        "@type": "Course",
+        "@id": "https://sievax.academy/#course",
+        "name": "Data & AI Strategy Sprint",
+        "url": "https://sievax.academy/",
+        "description": "A live, seven-week cohort for the leaders who have to make Data & AI actually land. Most AI initiatives don't fail on technology — they fail on strategy, processes, people and leadership. In seven live weeks you build the strategy that gets that 80% right.",
+        "inLanguage": "en",
+        "provider": { "@id": "https://sievax.academy/#organization" },
+        "educationalLevel": "Professional",
+        "teaches": [
+          "Data & AI strategy",
+          "Operating model and data governance",
+          "Success metrics for AI initiatives",
+          "Change management for data transformation",
+          "Responsible AI, privacy and ethics"
+        ],
+        "hasCourseInstance": {
+          "@type": "CourseInstance",
+          "name": "Cohort 01",
+          "courseMode": "online",
+          "courseWorkload": "PT2H30M",
+          "startDate": "2027-01-18",
+          "maximumAttendeeCapacity": 20,
+          "instructor": { "@id": "https://sievax.academy/#jan" },
+          "offers": {
+            "@type": "Offer",
+            "price": "873",
+            "priceCurrency": "EUR",
+            "category": "Paid",
+            "availability": "https://schema.org/InStock",
+            "url": "https://sievax.academy/#apply",
+            "validThrough": "2026-10-31"
+          }
+        }
+      },
+      {
+        "@type": "FAQPage",
+        "@id": "https://sievax.academy/#faq",
+        "mainEntity": [
+          { "@type": "Question", "name": "Do I need a technical background?", "acceptedAnswer": { "@type": "Answer", "text": "No. The Sprint deliberately focuses on everything around the technology: strategy, processes, people and leadership. Week 6 gives you exactly enough technology to make strategic decisions. No code, no math." } },
+          { "@type": "Question", "name": "How much time does it take per week?", "acceptedAnswer": { "@type": "Answer", "text": "2 hours live (2.5 hours in weeks 2 and 7). No mandatory homework. If you want to sharpen your strategy document between sessions, count on an extra hour. Your choice." } },
+          { "@type": "Question", "name": "What if I miss a session?", "acceptedAnswer": { "@type": "Answer", "text": "Every session is recorded, so you can catch up whenever it suits you. But the exercises, feedback and peer discussions are the heart of the programme, so plan to attend live whenever you can." } },
+          { "@type": "Question", "name": "What do I walk away with?", "acceptedAnswer": { "@type": "Answer", "text": "Your own Data & AI strategy, version 1.0. Built week by week, stress-tested against technology and ethics, and ready to put on the table in your organization. Plus a certificate, awarded when you submit your strategy." } },
+          { "@type": "Question", "name": "Who else will be in the cohort?", "acceptedAnswer": { "@type": "Answer", "text": "Data leaders, CDOs, managers, consultants and transformation leads from different organizations and sectors. You'll work all 7 weeks in a fixed pod of 3 to 4 peers. Small enough to know each other, diverse enough to learn from each other." } },
+          { "@type": "Question", "name": "Is my strategy work confidential?", "acceptedAnswer": { "@type": "Answer", "text": "Yes. What you share in your pod stays in your pod. You decide how much organizational detail you bring in; the exercises work at whatever level of openness you're comfortable with." } },
+          { "@type": "Question", "name": "Can my whole team join?", "acceptedAnswer": { "@type": "Answer", "text": "Absolutely, and it's worth considering: a shared strategy language is half the battle. For 2 or more participants from one organization, get in touch for group pricing." } },
+          { "@type": "Question", "name": "Can I get this training in person, on site in my organization?", "acceptedAnswer": { "@type": "Answer", "text": "Yes. We deliver this programme on site for teams, anywhere in the world, tailored to your organization's context. Get in touch to discuss the possibilities." } }
+        ]
+      }
+    ]
+  }
+  </script>
 </head>
 
 <body>

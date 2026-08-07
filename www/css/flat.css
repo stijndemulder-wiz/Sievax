@@ -1,3 +1,13 @@
+/* Poppins, self-hosted. Latin subset only (the page is English), five weights,
+   ~8 kB each. font-display:swap so text paints immediately in the fallback and
+   reflows once the file lands — never an invisible heading.
+   To refresh: re-download the latin @font-face srcs from Google Fonts. */
+@font-face { font-family: Poppins; font-style: normal; font-weight: 300; font-display: swap; src: url("../assets/fonts/poppins-300.woff2") format("woff2"); }
+@font-face { font-family: Poppins; font-style: normal; font-weight: 400; font-display: swap; src: url("../assets/fonts/poppins-400.woff2") format("woff2"); }
+@font-face { font-family: Poppins; font-style: normal; font-weight: 500; font-display: swap; src: url("../assets/fonts/poppins-500.woff2") format("woff2"); }
+@font-face { font-family: Poppins; font-style: normal; font-weight: 600; font-display: swap; src: url("../assets/fonts/poppins-600.woff2") format("woff2"); }
+@font-face { font-family: Poppins; font-style: normal; font-weight: 700; font-display: swap; src: url("../assets/fonts/poppins-700.woff2") format("woff2"); }
+
 /* ============================================================================
    SIEVAX ACADEMY · Stylesheet
    ----------------------------------------------------------------------------
