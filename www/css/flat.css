@@ -795,6 +795,10 @@ nav {
   font-size: 16.5px;
   color: var(--on-yellow);
 }
+/* an odd last item would leave a hole in the 2-column grid; let it span */
+.out-item:last-child:nth-child(odd) {
+  grid-column: 1 / -1;
+}
 
 /* PROGRAM — roadmap of cards, snaking L→R then back, joined in marker */
 .prog-top {
@@ -949,6 +953,11 @@ nav {
   background: var(--on-yellow);
   color: var(--fg);
 }
+.stop.cta .cta-coach {
+  font-size: 14px;
+  line-height: 1.4;
+  opacity: 0.85;
+}
 .stop.cta .cta-seats {
   font-family: var(--disp);
   font-weight: 700;
@@ -1063,8 +1072,7 @@ nav {
    section blocks because .on-yellow p and .gap p carry equal specificity,
    so source order is what decides it. */
 .on-yellow.gap p,
-.on-yellow .tr-copy p,
-.on-yellow .vvid-copy p {
+.on-yellow .tr-copy p {
   color: var(--on-yellow);
   opacity: 0.78;
 }
@@ -1096,39 +1104,6 @@ nav {
     ),
     var(--surface);
   border: 1px solid var(--line);
-}
-/* Portrait variant — a 9:16 video can't carry a full-width band on its own, so
-   this section splits: copy left, video right (same move as .gap-grid).
-   Remove alongside its section once the client's video format is known. */
-.vvid-grid {
-  display: grid;
-  /* even split so the copy column matches the measure of the other two-column
-     sections; the portrait frame is capped and centred inside its own half
-     rather than the grid being narrowed — the section keeps .wrap's gutters */
-  grid-template-columns: 1fr 1fr;
-  gap: clamp(32px, 5vw, 60px);
-  align-items: center;
-}
-/* same measures as the .gap copy column, so the two sections read alike */
-.vvid-copy h2 {
-  font-size: clamp(30px, 4.7vw, 50px);
-  max-width: 15ch;
-  margin-top: 14px;
-}
-.vvid-copy p {
-  font-size: clamp(16px, 2vw, 17.5px);
-  color: var(--muted);
-  margin-top: 22px;
-  max-width: 48ch;
-}
-.vid-frame-vertical {
-  aspect-ratio: 9 / 16;
-  /* width is explicit because the frame's only child is absolutely positioned —
-     with auto side margins it would otherwise shrink-to-fit to nothing */
-  width: 100%;
-  max-width: 420px;
-  margin-top: 0; /* the grid handles spacing; the 16:9 frame's top margin doesn't apply */
-  margin-inline: auto;
 }
 .vid-frame iframe {
   position: absolute;
@@ -1406,6 +1381,13 @@ nav {
   line-height: 1.45;
   text-align: right;
   color: var(--faint);
+}
+/* what the price covers — small print directly under the price */
+.info-card .includes {
+  margin-top: 8px;
+  font-size: 13px;
+  line-height: 1.45;
+  color: var(--muted);
 }
 .early {
   margin-top: 16px;
@@ -1833,14 +1815,8 @@ footer {
   .convert-grid,
   .aud-layout,
   .tr-grid,
-  .vvid-grid,
   .faq-talk {
     grid-template-columns: 1fr;
-  }
-  /* stacked, the portrait frame would run absurdly tall at full width */
-  .vid-frame-vertical {
-    max-width: 360px;
-    margin-inline: auto;
   }
   .aud-fig {
     max-width: 500px;

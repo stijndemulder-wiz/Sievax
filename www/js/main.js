@@ -106,8 +106,7 @@
    swap in the (privacy-friendly, no-cookie) embed with autoplay. Until a real
    video ID is set on the frame (data-video-id still the placeholder), the button
    stays in demo mode and does nothing — mirrors the lead form above.
-   Applies to every .vid-frame on the page: the landscape and portrait sections
-   both exist until the client's video format is known, then one gets deleted.
+   Applies to every .vid-frame on the page.
 ---------------------------------------------------------------------------- */
 (function () {
   var frames = document.querySelectorAll(".vid-frame");
