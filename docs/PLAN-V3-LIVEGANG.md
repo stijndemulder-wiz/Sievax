@@ -4,6 +4,12 @@ Bron: mail Jan 18/9/2026 ("Feedback en filmpje sievax.academy"), Miro-kolom VERS
 (board `uXjVH70KQk8=`, x ≈ 14650), Notion-checklist, memory. Deadline: live vóór 30/9.
 Stand 21/9: `https://sievax.academy/` geeft 401, de login wall staat er nog op.
 
+## Stand 21/9 avond
+
+A, B en C zijn klaar en staan online achter de login wall. GA4: property 555253626,
+`G-XX4CZLMZ4N`, key events `generate_lead` + `book_call_completed`, bewaring 14 maanden.
+Open: D (livegang) en E.
+
 ## A. Miro versie 3 (10 notities)
 
 **Video**
