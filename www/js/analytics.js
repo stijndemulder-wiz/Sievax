@@ -1,7 +1,7 @@
 /* ============================================================================
    SIEVAX ACADEMY · Analytics (GA4) behind a consent banner
    ----------------------------------------------------------------------------
-   Nothing from Google loads until the visitor clicks "Allow". Until then there
+   Nothing from Google loads until the visitor clicks "Accept". Until then there
    is no gtag.js, no cookie and no request; declining keeps it that way. The
    choice is stored in localStorage ("sx-consent") for 12 months and can be
    changed at any time via the "Cookie settings" link in the footer.
