@@ -35,6 +35,7 @@
 
   <!-- Styles (flat theme) + shared behaviour -->
   <link rel="stylesheet" href="css/flat.css">
+  <script src="js/analytics.js" defer></script>
   <script src="js/main.js" defer></script>
 
   <!--
@@ -504,8 +505,22 @@
     <img src="assets/logos/SVG/logo - geel.svg" alt="Sievax">
     <div class="mid">&copy; Sievax Academy &middot; An initiative by <a href="https://sievax.be" target="_blank" rel="noopener">Sievax</a></div>
     <a class="mail" href="mailto:jan@sievax.be">jan@sievax.be</a>
+    <button type="button" class="foot-consent" data-consent-open>Cookie settings</button>
   </div>
 </footer>
+
+<!-- Consent banner — js/analytics.js shows it when no choice is stored yet.
+     Without a click on "Allow", Google Analytics never loads. -->
+<div class="consent" id="consent" role="region" aria-labelledby="consentTitle" hidden>
+  <div class="consent-copy">
+    <h2 class="consent-title" id="consentTitle">Cookies</h2>
+    <p>We would like to count visits with Google Analytics, so we know which parts of this page help. Nothing is measured unless you allow it. See the <a href="https://sievax.be/privacy-policy/" target="_blank" rel="noopener">privacy policy</a>.</p>
+  </div>
+  <div class="consent-actions">
+    <button type="button" class="btn btn-ghost" data-consent="decline">Decline</button>
+    <button type="button" class="btn btn-yellow" data-consent="allow">Allow analytics</button>
+  </div>
+</div>
 
 <!-- Mobile sticky CTA — keeps the primary action reachable on small screens.
      <aside> so the content sits in a landmark rather than orphaned on <body>. -->
