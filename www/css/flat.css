@@ -115,6 +115,19 @@ p {
   background: var(--yellow);
   color: var(--on-yellow);
 }
+/* yellow-on-yellow selection is invisible: flip it to ink on every yellow surface */
+.on-yellow ::selection,
+.enroll .stub ::selection,
+.aud-yes ::selection,
+.stop.cta ::selection,
+.early::selection,
+.early ::selection,
+.form-card ::selection,
+.faq-talk-cta ::selection,
+.btn-yellow::selection {
+  background: var(--on-yellow);
+  color: var(--yellow);
+}
 
 .wrap {
   max-width: 1400px;
@@ -1809,6 +1822,23 @@ footer {
     max-width: none;
     text-align: left;
   }
+  /* phone: the video bleeds edge to edge (cancels .wrap's side padding) and the
+     play button shrinks, so it no longer dominates a 16:9 frame this small */
+  .vid-frame {
+    margin-inline: calc(-1 * clamp(22px, 4.5vw, 72px));
+    border-radius: 0;
+    border-inline: 0;
+  }
+  .vid-play {
+    gap: 10px;
+  }
+  .vid-disc {
+    width: 52px;
+    height: 52px;
+  }
+  .vid-label {
+    font-size: 16px;
+  }
 }
 @media (max-width: 900px) {
   .gap-grid,
@@ -1831,6 +1861,7 @@ footer {
     height: auto;
     min-height: 0;
     aspect-ratio: 1;
+    width: 100%; /* centred with no width, the frame collapses: its img is absolute */
     max-width: 320px;
     justify-self: center;
   }
