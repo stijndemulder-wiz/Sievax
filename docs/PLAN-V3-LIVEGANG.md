@@ -85,3 +85,37 @@ Afspraak 3/9: alleen GA4, zonder akkoord laadt er niets. Ads, GTM en pixels vall
 
 A + B (één commit, deploy naar de afgeschermde site) → mail naar Jan met de vragen uit E →
 C zodra het GA4-ID binnen is → D.
+
+## F. Mails Jan 24/9 en 28/9 (plan 28/9)
+
+**1. Formulier komt niet door (bug, eerst).**
+Gemeten in de Combell-logs: 24/9 13:22 één `POST /api/lead.php` van Jan (Edge 153), status 200,
+31 bytes (= gzip van `{"ok":true}`). Geen regel in `brevo-error.log`/`leads-failed.log`, en het
+enige `rl_*.txt`-bestand in `storage/` dateert van 6/8. De throttle-stempel wordt pas geschreven
+na de spamchecks, dus de aanvraag is gestopt op honeypot of `_ts` en kreeg een stille "ok".
+Jan zag dus een succesmelding, maar er ging niets naar Brevo.
+Vermoeden: Edge-autofill vult het verborgen `_gotcha`-tekstveld (`autocomplete="off"` wordt
+genegeerd). Weerlegd als een test in Edge met autofill het veld leeg laat; dan is `_ts` de dader.
+- Honeypot hernoemen naar een naam zonder autofill-betekenis, `autocomplete="new-password"`-achtige
+  truc vermijden; veld `type="text"` in een `hidden`-wrapper met `display:none`.
+- Stille spam-drops loggen in `storage/spam.log` (tijd, reden, ingevulde e-mail), zodat een
+  weggegooide echte lead terug te vinden is.
+- Toets: zelf inzenden (Chrome + Edge, met autofill), mail komt aan op jan@sievax.be.
+
+**2. Tag "Personalized coaching"** bij de pills in de hero (`index.html` ± r. 294), na
+"Sessions recorded". (Screenshot van Jan niet uitgelezen, plaats afgeleid: enige tagrij.)
+
+**3. Outcomes naar 8 punten.** Nieuw punt 3: "A portfolio of initiatives on people, technology
+and process level." Huidige 3 tot 7 schuiven op naar 4 tot 8. Even aantal, grid klopt weer.
+
+**4. Early bird 31 oktober → 13 november.** Twee plekken: prijskaart (r. 381) en JSON-LD
+`validThrough` (r. 106) → `2026-11-13`. og-image vermeldt de early bird niet.
+
+**5. sievax.be.** Jan akkoord met het voorstel. Topmenu "Academy" wordt een custom link naar
+sievax.academy in een nieuw tabblad (WP-menu, native "Open link in new tab"). De huidige
+academy-pagina: 301 naar sievax.academy, daarna de pagina op concept/prullenbak.
+
+**6. Livegang maandag 28/9 of dinsdag 29/9** (Jan). Na 1 t.e.m. 4: deploy, formuliertest,
+dan login wall eraf en D uitvoeren (Search Console, sitemap, controle na livegang).
+
+**Nog open bij Jan:** policy-URL voor de cookiebanner (vraag 2 van 22/9, onbeantwoord).
