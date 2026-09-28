@@ -102,8 +102,8 @@ genegeerd). Weerlegd als een test in Edge met autofill het veld leeg laat; dan i
   weggegooide echte lead terug te vinden is.
 - Toets: zelf inzenden (Chrome + Edge, met autofill), mail komt aan op jan@sievax.be.
 
-**2. Tag "Personalized coaching"** bij de pills in de hero (`index.html` ± r. 294), na
-"Sessions recorded". (Screenshot van Jan niet uitgelezen, plaats afgeleid: enige tagrij.)
+**2. Tag "Personalized coaching"** achteraan de pills in "How the cohort works", na
+"Language English" (screenshot Jan). Klaar in d66274e.
 
 **3. Outcomes naar 8 punten.** Nieuw punt 3: "A portfolio of initiatives on people, technology
 and process level." Huidige 3 tot 7 schuiven op naar 4 tot 8. Even aantal, grid klopt weer.
