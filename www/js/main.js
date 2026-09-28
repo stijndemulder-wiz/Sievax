@@ -52,8 +52,9 @@
    Submit to api/lead.php (Brevo) via fetch and reveal the inline success message.
    Failures are shown, not swallowed: a lead that silently disappears is worse
    than one that asks the visitor to mail instead.
-   Also stamps _ts with the render time — the handler treats a submit within two
-   seconds of that as a bot.
+   Also sends _elapsed: seconds since the page loaded, measured in the browser so
+   the visitor's clock setting cannot matter. The handler counts a submit within
+   two seconds as a spam signal.
 ---------------------------------------------------------------------------- */
 (function () {
   var form = document.getElementById("leadForm");
@@ -61,8 +62,8 @@
   var error = document.getElementById("leadError");
   if (!form) return;
 
-  var ts = document.getElementById("f-ts");
-  if (ts) ts.value = String(Math.floor(Date.now() / 1000));
+  var elapsed = document.getElementById("f-elapsed");
+  var loadedAt = Date.now();
 
   var button = form.querySelector('button[type="submit"]');
 
@@ -71,6 +72,7 @@
 
     if (error) error.hidden = true;
     if (button) button.disabled = true;
+    if (elapsed) elapsed.value = String(Math.floor((Date.now() - loadedAt) / 1000));
 
     fetch(form.getAttribute("action") || "", {
       method: "POST",

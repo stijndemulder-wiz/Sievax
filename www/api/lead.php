@@ -28,14 +28,56 @@ if (($_SERVER['REQUEST_METHOD'] ?? '') !== 'POST') {
   respond(false, 'method', 405);
 }
 
-// --- Spam: honeypot moet leeg zijn; bots krijgen een stille "ok" ---
-if (!empty($_POST['_gotcha'])) {
-  respond(true);
+// --- Logs: storage/ ligt náást www/, dus boven de document root: er is geen URL
+// die er naartoe wijst. De .htaccess hieronder is puur een tweede slot, voor als
+// de docroot ooit verkeerd op de release-root wordt gezet.
+$storage = __DIR__ . '/../../storage';
+if (!is_dir($storage)) {
+  @mkdir($storage, 0755, true);
+}
+if (!is_file($storage . '/.htaccess')) {
+  @file_put_contents(
+    $storage . '/.htaccess',
+    "# Logs met persoonsgegevens. Nooit via het web opvraagbaar.\n"
+    . "<IfModule mod_authz_core.c>\n  Require all denied\n</IfModule>\n"
+    . "<IfModule !mod_authz_core.c>\n  Order allow,deny\n  Deny from all\n</IfModule>\n"
+  );
 }
 
-// --- Spam: ingevuld binnen 2s na renderen, of geen timestamp = bot ---
-$ts = (int) ($_POST['_ts'] ?? 0);
-if ($ts <= 0 || (time() - $ts) < 2) {
+// --- Spam: twee signalen, en geen van beide gooit alleen een lead weg ---
+// Honeypot ingevuld (autofill kan dat ook bij een mens) of verzonden binnen 2s na
+// het laden. Eén signaal: de mail gaat toch naar Jan, gemarkeerd. Beide: stille
+// "ok" zonder mail. In beide gevallen komt de inzending in storage/spam.log, zodat
+// een weggefilterde echte aanvraag altijd terug te vinden is.
+// `_gotcha` en `_ts` zijn de velden van de vorige versie van de pagina; die blijven
+// meetellen voor wie nog een oude kopie in de cache heeft.
+$honeypot = trim((string) ($_POST['hp_x7q'] ?? '')) !== ''
+         || trim((string) ($_POST['_gotcha'] ?? '')) !== '';
+if (isset($_POST['_elapsed']) && is_numeric($_POST['_elapsed'])) {
+  $elapsed = (int) $_POST['_elapsed'];
+} elseif ((int) ($_POST['_ts'] ?? 0) > 0) {
+  $elapsed = time() - (int) $_POST['_ts'];
+} else {
+  $elapsed = -1;
+}
+$tooFast = $elapsed < 2;
+$spamSignals = array_keys(array_filter(['honeypot' => $honeypot, 'too_fast' => $tooFast]));
+
+if ($spamSignals) {
+  @file_put_contents(
+    $storage . '/spam.log',
+    (new DateTime('now', new DateTimeZone('Europe/Brussels')))->format('d/m/Y H:i:s') . "\t"
+    . json_encode([
+        'signals' => $spamSignals,
+        'elapsed' => $elapsed,
+        'ip'      => (string) ($_SERVER['REMOTE_ADDR'] ?? ''),
+        'name'    => mb_substr((string) ($_POST['name'] ?? ''), 0, 100),
+        'email'   => mb_substr((string) ($_POST['email'] ?? ''), 0, 150),
+      ], JSON_UNESCAPED_UNICODE) . "\n",
+    FILE_APPEND | LOCK_EX
+  );
+}
+if (count($spamSignals) === 2) {
   respond(true);
 }
 
@@ -51,21 +93,6 @@ if (!filter_var($email, FILTER_VALIDATE_EMAIL) || mb_strlen($email) > 150) {
 }
 
 // --- Per-IP throttle: max 1 inzending per 5s ---
-// storage/ ligt náást www/, dus boven de document root: er is geen URL die er
-// naartoe wijst. De .htaccess hieronder is puur een tweede slot — als de docroot
-// ooit verkeerd op de release-root wordt gezet, blijven de logs alsnog dicht.
-$storage = __DIR__ . '/../../storage';
-if (!is_dir($storage)) {
-  @mkdir($storage, 0755, true);
-}
-if (!is_file($storage . '/.htaccess')) {
-  @file_put_contents(
-    $storage . '/.htaccess',
-    "# Logs met persoonsgegevens. Nooit via het web opvraagbaar.\n"
-    . "<IfModule mod_authz_core.c>\n  Require all denied\n</IfModule>\n"
-    . "<IfModule !mod_authz_core.c>\n  Order allow,deny\n  Deny from all\n</IfModule>\n"
-  );
-}
 $ip     = (string) ($_SERVER['REMOTE_ADDR'] ?? '0.0.0.0');
 $rlFile = $storage . '/rl_' . hash('sha256', $ip) . '.txt';
 $last   = is_file($rlFile) ? (int) file_get_contents($rlFile) : 0;
@@ -92,7 +119,7 @@ foreach ($labels as $key => $label) {
 }
 
 $dateStr = (new DateTime('now', new DateTimeZone('Europe/Brussels')))->format('d/m/Y H:i');
-$subject = 'New Sievax Academy lead: ' . $name;
+$subject = ($spamSignals ? '[mogelijk spam] ' : '') . 'New Sievax Academy lead: ' . $name;
 
 $html = '<h2>' . htmlspecialchars($subject, ENT_QUOTES) . '</h2>'
       . '<p style="color:#555">Received ' . $dateStr . '</p>'
