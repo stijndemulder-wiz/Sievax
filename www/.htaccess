@@ -6,6 +6,12 @@ DirectoryIndex index.html index.php
 # (release-root, zie .autogit.yml) en zijn dus sowieso onbereikbaar via het web.
 # Wat hier binnen ligt en niet opvraagbaar mag zijn, blokkeren we expliciet:
 RedirectMatch 404 ^/api/inc/
+# www.sievax.academy → sievax.academy (één adres voor Google; DNS wijst www al naar deze host)
+<IfModule mod_rewrite.c>
+  RewriteEngine On
+  RewriteCond %{HTTP_HOST} ^www\.sievax\.academy$ [NC]
+  RewriteRule ^ https://sievax.academy%{REQUEST_URI} [R=301,L]
+</IfModule>
 
 # Compressie
 <IfModule mod_deflate.c>
