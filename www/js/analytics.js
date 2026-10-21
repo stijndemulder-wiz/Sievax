@@ -3,7 +3,7 @@
    ----------------------------------------------------------------------------
    Nothing from Google loads until the visitor clicks "Accept". Until then there
    is no gtag.js, no cookie and no request; declining keeps it that way. The
-   choice is stored in localStorage ("sx-consent") for 12 months and can be
+   choice is stored in localStorage ("sx-consent") for 6 months and can be
    changed at any time via the "Cookie settings" link in the footer.
 
    Consent Mode v2 defaults are set to denied before gtag.js is ever injected,
@@ -24,7 +24,7 @@
 (function () {
   var GA_ID = "G-XX4CZLMZ4N";
   var STORE = "sx-consent";
-  var MAX_AGE = 365 * 24 * 60 * 60 * 1000;
+  var MAX_AGE = 182 * 24 * 60 * 60 * 1000; // GBA: about 6 months is reasonable
 
   window.dataLayer = window.dataLayer || [];
   window.gtag =
@@ -99,8 +99,9 @@
   function show(focus) {
     if (!banner) return;
     banner.hidden = false;
-    var first = banner.querySelector("button");
-    if (focus && first) first.focus({ preventScroll: true });
+    // Focus the title, not a button: no choice is preselected for the keyboard.
+    var title = banner.querySelector(".consent-title");
+    if (focus && title) title.focus({ preventScroll: true });
   }
 
   if (banner) {

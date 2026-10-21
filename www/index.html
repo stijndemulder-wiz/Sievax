@@ -520,14 +520,14 @@
      Without a click on "Accept", Google Analytics never loads. -->
 <div class="consent" id="consent" role="region" aria-labelledby="consentTitle" hidden>
   <div class="consent-copy">
-    <h2 class="consent-title" id="consentTitle">Cookies</h2>
+    <h2 class="consent-title" id="consentTitle" tabindex="-1">Cookies</h2>
     <p>We would like to count visits with Google Analytics, so we know which parts of this page help. Nothing is measured unless you allow it. See the <a href="https://sievax.be/privacy-policy/" target="_blank" rel="noopener">privacy policy</a>.</p>
   </div>
   <div class="consent-actions">
     <!-- Both buttons identical in style, size and order weight: refusing must be
          as easy and as visible as accepting (GDPR/ePrivacy, Belgian DPA). -->
-    <button type="button" class="consent-btn" data-consent="decline">Decline</button>
     <button type="button" class="consent-btn" data-consent="allow">Accept</button>
+    <button type="button" class="consent-btn" data-consent="decline">Decline</button>
   </div>
 </div>
 
