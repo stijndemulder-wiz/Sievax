@@ -1304,8 +1304,9 @@ nav {
   justify-content: space-between;
   gap: 4px 18px;
 }
-/* Price: €873 is the live number and carries the display size; €970 is struck
-   and quieter, but stays at --muted so it still clears 4.5:1. */
+/* Price: .pnow is the live number and carries the display size. The struck <s>,
+   .vh and .early rules stay for a future early bird (unused since 16/11/2026);
+   <s> stays at --muted so it still clears 4.5:1. */
 .price-line {
   display: flex;
   flex-wrap: wrap; /* must not force the card wider than 390px */

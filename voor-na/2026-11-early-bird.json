@@ -1,0 +1,11 @@
+{
+  "title": "Sievax early bird 16/11",
+  "subtitle": "sievax.academy. Voor = met early bird, na = enkel 970 euro",
+  "base": "https://sievax.academy/",
+  "outDir": "2026-11-early-bird",
+  "hideCss": "[class*=cookie], [id*=cookie], [class*=consent], [id*=consent]{display:none!important}",
+  "items": [
+    { "id": "prijs-desktop", "label": "Prijskaart desktop", "path": "/", "selector": ".info-card", "vp": "desktop", "note": "Doorstreepte prijs en early-bird-balk weg, prijs 970 euro" },
+    { "id": "prijs-mobile", "label": "Prijskaart mobiel", "path": "/", "selector": ".info-card", "vp": "mobile", "note": "Idem op 390 px" }
+  ]
+}
